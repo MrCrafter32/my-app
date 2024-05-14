@@ -55,7 +55,7 @@ export async function POST(req: Request) {
     if (eventType === 'user.created') {
       await db.user_table.create({
         data: {
-        user_id: parseInt(payload.data.external_id),
+        user_id: payload.data.id,
         passwd: String(payload.data.password_enabled),
         fname: payload.data.first_name,
         lname: payload.data.last_name,

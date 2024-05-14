@@ -24,7 +24,7 @@ model records {
 model robot_table {
   robot_id   Int         @id
   model      String?     
-  user_id    Int?
+  user_id    String?
   records    records[]
   user_table user_table? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "robot_table_ibfk_1")
 
@@ -38,7 +38,7 @@ model sensor_table {
 }
 
 model user_table {
-  user_id     Int           @id
+  user_id     String      @id
   fname       String?         
   lname       String?         
   email       String?         
