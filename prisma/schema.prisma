@@ -1,0 +1,48 @@
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model records {
+  indate       DateTime     @db.Date
+  robot_id     Int
+  sensor_id    Int
+  val          Int?
+  robot_table  robot_table  @relation(fields: [robot_id], references: [robot_id], onDelete: NoAction, onUpdate: NoAction, map: "records_ibfk_1")
+  sensor_table sensor_table @relation(fields: [sensor_id], references: [sensor_id], onDelete: NoAction, onUpdate: NoAction, map: "records_ibfk_2")
+
+  @@id([indate, robot_id, sensor_id])
+  @@index([robot_id], map: "robot_id")
+  @@index([sensor_id], map: "sensor_id")
+}
+
+model robot_table {
+  robot_id   Int         @id
+  model      String?     @db.VarChar(7)
+  user_id    Int?
+  records    records[]
+  user_table user_table? @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "robot_table_ibfk_1")
+
+  @@index([user_id], map: "user_id")
+}
+
+model sensor_table {
+  sensor_id   Int       @id
+  sensor_name String?   @db.VarChar(255)
+  records     records[]
+}
+
+model user_table {
+  user_id     Int           @id
+  fname       String?       @db.VarChar(255)
+  lname       String?       @db.VarChar(255)
+  email       String?       @db.VarChar(255)
+  passwd      Boolean        @db.VarChar(255)
+  robot_table robot_table[]
+}
+
