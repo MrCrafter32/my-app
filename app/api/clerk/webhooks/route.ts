@@ -56,7 +56,7 @@ export async function POST(req: Request) {
       await db.user_table.create({
         data: {
         user_id: parseInt(payload.data.external_id),
-        passwd: payload.data.password_enabled,
+        passwd: String(payload.data.password_enabled),
         fname: payload.data.first_name,
         lname: payload.data.last_name,
         email: payload.data.email,
